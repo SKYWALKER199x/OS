@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Details Form</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen flex items-center justify-center" background="books-bookcase-library-bookshelf.jpg">
+
+<form class="bg-gray-500 opacity-90 p-8 rounded w-96">
+    <h1 class="text-2xl font-bold mb-4">Book Details</h1>
+
+    <div class="mb-4">
+        <label for="title" class="text-sm font-medium">Book Title</label>
+        <input type="text" id="title" name="title" placeholder="Enter Book name" required class="mt-1 p-2 w-full border rounded-md">
+    </div>
+
+    <div class="mb-4">
+        <label for="author" class="block text-sm font-medium">Author Name</label>
+        <input type="text" id="author" name="author" placeholder="Enter Author name" required class="mt-1 p-2 w-full border rounded-md">
+    </div>
+
+    <div class="mb-4">
+        <label for="publisher" class="block text-sm font-medium">Publisher Name</label>
+        <input type="text" id="publisher" name="publisher" placeholder="Enter publisher name" required class="mt-1 p-2 w-full border rounded-md">
+    </div>
+
+    <div class="mb-4">
+        <label for="year" class="block text-sm font-medium">Published Year</label>
+        <input type="number" min="1800" max="2024" value="2024" required id="year" name="year" class="mt-1 p-2 w-full border rounded-md">
+    </div>
+
+    <div class="mb-4">
+        <label for="isbn" class="block text-sm font-medium">ISBN</label>
+        <input type="text" id="isbn" pattern="[0-9]{13}" minlength="13"  maxlength="13" required name="isbn" class="mt-1 p-2 w-full border rounded-md">
+    </div>
+
+    <div class="mb-6">
+        <label for="quantity" class="block text-sm font-medium">Quantity</label>
+        <input type="number" min="1" id="quantity" name="quantity" required class="mt-1 p-2 w-full border rounded-md">
+    </div>
+
+    <button type="submit" class="bg-gradient-to-r rounded p-2 from-green-400 to-blue-500 hover:from-indigo-500 via-purple-500 to-pink-500">Submit</button>
+    </form>
+
+</body>
+</html>

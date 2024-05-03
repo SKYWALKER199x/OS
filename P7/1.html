@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Directive Example (Click Toggle Case)</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <style>
+        body {
+            height: 100%;
+        }
+
+        #app {
+            background-color: bisque;
+            text-align: center;
+            border-radius: 10px;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <p v-toggle-case>Hello, this text will toggle between uppercase and lowercase on click!</p>
+    </div>
+    <script>
+        Vue.directive('toggle-case', {
+            bind(el) {
+                el.textContent = el.textContent.toLowerCase();
+                el.style.cursor = 'pointer';
+                el.addEventListener('click', () => {
+                    el.textContent = el.textContent === el.textContent.toLowerCase()
+                        ? el.textContent.toUpperCase()
+                        : el.textContent.toLowerCase();
+                });
+            }
+        });
+
+        new Vue({
+            el: '#app'
+        });
+    </script>
+</body>
+
+</html>

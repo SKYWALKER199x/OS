@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsive Web Page</title>
+  <style>
+    /* Reset some default styles */
+    body, h1, h2, p {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      line-height: 150%;
+    }
+    
+    header {
+      background-color: #397e839c;
+      padding: 2em;
+      text-align: center;
+    }
+
+    .main-content {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      margin: 2em;
+    }
+
+    .main-content article {
+      flex: 1;
+      margin: 1em;
+      padding: 1em;
+      background-color: #aca9a9;
+    }
+
+    @media screen and (max-width: 768px) {
+      .main-content {
+        flex-direction: column;
+      }
+
+      .main-content article {
+        margin: 1em 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1 style="font-size: 5vw;">Responsive Web Page</h1>
+  </header>
+
+  <div class="main-content">
+    <article>
+      <h2>Section 1</h2>
+      <img src="batman.jpg" style="width: 100%;">
+      <p style="font-size:3vw;text-align: center;">The Dark Night</p>
+    </article>
+
+    <article>
+      <h2>Section 2</h2>
+      <img src="mountain_at_night-wallpaper-320x480.jpg" style="width: 100%;">
+      <p style="font-size:3vw;text-align: center;">Mountain at night wallpaper</p>
+    </article>
+  </div>
+</body>
+</html>

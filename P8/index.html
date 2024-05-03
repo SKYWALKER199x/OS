@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Management System</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #1a1a1a;
+            /* Dark background */
+            color: #eee;
+            /* Light text color */
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #333;
+            /* Dark container background */
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #4dd2ff;
+            /* Cyan heading color */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th,
+        table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #666;
+            /* Darker border */
+            text-align: left;
+        }
+
+        table th {
+            background-color: #444;
+            /* Dark gray table header */
+            color: #eee;
+            /* Light table header text */
+            text-transform: uppercase;
+        }
+
+        table td button {
+            padding: 8px 12px;
+            background-color: #ff4d4d;
+            /* Red button background */
+            color: #fff;
+            /* White button text */
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        table td button:hover {
+            background-color: #e60000;
+            /* Darker red on hover */
+        }
+
+        /* Form styling */
+        form {
+            background-color: #444;
+            /* Dark form background */
+            border-radius: 6px;
+            padding: 30px;
+        }
+
+        form label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+            color: #ddd;
+            /* Light label text color */
+        }
+
+        form input[type="text"],
+        form textarea,
+        form select {
+            width: calc(100% - 24px);
+            /* Adjusted width for inputs */
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #666;
+            /* Darker border */
+            border-radius: 6px;
+            font-size: 16px;
+            background-color: #333;
+            /* Dark input background */
+            color: #ddd;
+            /* Light input text color */
+        }
+
+        form input[type="date"] {
+            width: calc(100% - 24px);
+            /* Adjusted width for inputs */
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #666;
+            /* Darker border */
+            border-radius: 6px;
+            font-size: 16px;
+            background-color: #333;
+            /* Dark input background */
+            color: #ddd;
+            /* Light input text color */
+        }
+
+        form input[type="submit"] {
+            width: 100%;
+            background-color: #4dd2ff;
+            /* Cyan button background */
+            color: #fff;
+            /* White button text */
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        form input[type="submit"]:hover {
+            background-color: #00b3b3;
+            /* Darker cyan on hover */
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Record Management System</h1>
+    <form id="taskForm" style="width: 500px;align-items: center;align-self: center;">
+        <label for="title">Name:</label>
+        <input type="text" id="title" required><br>
+        <label for="description">Address:</label>
+        <textarea id="description"></textarea><br>
+        <label for="dueDate">dob:</label>
+        <input type="date" id="dueDate" required><br>
+        <button type="submit">Add</button>
+    </form>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchTasks();
+
+            document.getElementById('taskForm').addEventListener('submit', (event) => {
+                event.preventDefault();
+                addTask();
+            });
+        });
+
+        function fetchTasks() {
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', '/tasks', true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        const tasks = JSON.parse(xhr.responseText);
+                        const taskTableBody = document.querySelector('#taskTable tbody');
+                        taskTableBody.innerHTML = '';
+                        tasks.forEach(task => {
+                            const row = `
+                        <tr>
+                            <td>${task.title}</td>
+                            <td>${task.description}</td>
+                            <td>${task.dueDate}</td>
+                            <td>${task.status}</td>
+                            <td><button onclick="deleteTask(${task.id})">Delete</button></td>
+                        </tr>
+                    `;
+                            taskTableBody.innerHTML += row;
+                        });
+                    } else {
+                        console.error('Error fetching tasks:', xhr.statusText);
+                    }
+                }
+            };
+            xhr.send();
+        }
+
+
+        function addTask() {
+            const title = document.getElementById('title').value;
+            const description = document.getElementById('description').value;
+            const dueDate = document.getElementById('dueDate').value;
+            const status = document.getElementById('status').value;
+
+            fetch('/tasks', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    title,
+                    description,
+                    dueDate,
+                    status
+                }),
+            })
+                .then(response => {
+                    if (response.ok) {
+                        fetchTasks();
+                    } else {
+                        console.error('Failed to add task');
+                    }
+                })
+                .catch(error => console.error('Error adding task:', error));
+        }
+
+        function deleteTask(id) {
+            fetch(`/tasks/${id}`, {
+                method: 'DELETE',
+            })
+                .then(response => {
+                    if (response.ok) {
+                        fetchTasks();
+                    } else {
+                        console.error('Failed to delete task');
+                    }
+                })
+                .catch(error => console.error('Error deleting task:', error));
+        }
+    </script>
+</body>
+
+</html>

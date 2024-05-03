@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Location</title>
+    <script>
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function showPosition(position) {
+            var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
+
+            document.getElementById("latitude").innerHTML = "Latitude: " + latitude;
+            document.getElementById("longitude").innerHTML = "Longitude: " + longitude;
+
+            // Generate a link to Google Maps with the obtained coordinates
+            var mapLink = "https://www.google.com/maps?q=" + latitude + "," + longitude;
+            var mapLinkElement = document.getElementById("mapLink");
+            mapLinkElement.innerHTML = '<a href="' + mapLink + '" target="_blank">Open in Google Maps</a>';
+        }
+
+        function showError(error) {
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    alert("User denied the request.");
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    alert("Location is unavailable.");
+                    break;
+                case error.TIMEOUT:
+                    alert("The request timed out.");
+                    break;
+                case error.UNKNOWN_ERROR:
+                    alert("An unknown error occurred.");
+                    break;
+            }
+        }
+    </script>
+</head>
+<body>
+    <div style="text-align: center;">
+        <h1>My Location</h1>
+        <button onclick="getLocation()">Get My Location</button>
+        <p id="latitude"></p>
+        <p id="longitude"></p>
+        <p id="mapLink"></p>
+    </div>
+</body>
+</html>

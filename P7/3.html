@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Human Readable Date Example</title>
+  <!-- Include Vue.js library -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+</head>
+
+<body>
+
+  <div id="app">
+    <p v-human-readable-date="date">Human Readable Date: {{ humanReadableDate }}</p>
+  </div>
+
+  <script>
+    Vue.directive('human-readable-date', {
+      bind(el, binding) {
+        const date = new Date(binding.value);
+        const options = { year: 'long', month: 'numeric', day: 'numeric' };
+        el.innerHTML = date.toLocaleDateString('en-US', options);
+      }
+    });
+
+    new Vue({
+      el: '#app',
+      data() {
+        return {
+          date: '2024-03-14T12:00:00',
+          humanReadableDate: ''
+        };
+      },
+      mounted() {
+        const date = new Date(this.date);
+        const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
+        this.humanReadableDate = date.toLocaleDateString('en-US', options);
+      }
+    });
+  </script>
+
+</body>
+
+</html>
